@@ -3,6 +3,8 @@
 A small browser tool for building and editing color palettes. It generates
 semi-random colors that you can guide with per-channel constraints.
 
+**Try it:** [dffmonolith.github.io/palettes](https://dffmonolith.github.io/palettes/)
+
 ![Palettes screenshot](docs/screenshot.jpg)
 
 Palettes was originally called **Palette Tweaker**. I built it in 2016, and
