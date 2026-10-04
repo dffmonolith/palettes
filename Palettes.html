@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Dennis F. Freeze (DFF), monolithdesign.com">
+<meta name="copyright" content="Dennis F. Freeze">
+<meta name="description" content="Palettes: quickly create and edit color palettes with biased semi-random colors.">
+<title>Palettes</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+<meta name=viewport content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" media="all" href="Palettes.css?v=20261003a" />
+<link href='https://fonts.googleapis.com/css?family=Acme|Source+Sans+Pro:400,600,900' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<div id="outerbox">
+
+<div id="header">
+<h1>Palettes <span id="version-badge" class="version-badge">v2.5</span><a href="#0" id="settings-button" class="title-icon-button" title="Open the Settings/Help panel." aria-label="Settings">&#9881;<span class="settings-modified symbol-emphasis">&thinsp;&Delta;</span></a><a href="Palettes-Help.html" id="help-button" class="title-icon-button" title="Show the Help page for Palettes." aria-label="Help">&#9432;</a></h1>
+
+<div id="header-columns">
+
+<div class="command-box" id="column-palette">
+  <h2 class="helping-header">PALETTE COMMANDS</h2>
+  <a href="#0" id="new-button" class="command-button" title="Create a new Palette, and auto-fill it with random (and unbiased) colors.">NEW</a>
+  <a href="#0" id="save-all-button" class="command-button" title="Save ALL palettes and settings in Local Storage in the browser.">SAVE</a>
+  <a href="#0" id="rename-button" class="command-button" title="Rename the Current Palette.">RENAME</a>
+  <a href="#0" id="delete-button" class="command-button" title="Delete the Current Palette.">DELETE</a>
+  <a href="#0" id="exporter-button" class="command-button" title="Open the Import/Export/Merge panel.">IMPORT/EXPORT</a>
+  <hr style="padding:0; margin-top:8px; margin-bottom:2px;" />
+  <h2 class="helping-header">PALETTES</h2>
+  <p id="palette-chooser"></p>
+</div><!--   end of #column-palette   -->
+
+<div class="command-box" id="column-swatch">
+<h2 class="helping-header">SWATCH COMMANDS</h2>
+<p id="palette-commands">
+  <a href="#0" id="random-button" class="command-button"
+    title="Randomize the UNSELECTED colors in the current Palette using current Color Bias settings.">RANDOMIZE</a>
+  <a href="#0" id="add-button" class="command-button"
+    title="Add a NEW color to the current Palette. Default suggestion uses current color biases.">ADD</a>
+  <a href="#0" id="select-button" class="command-button"
+    title="Select (check) ALL Color Swatches in this palette.">&#10004;&thinsp;ALL</a>
+  <a href="#0" id="deselect-button" class="command-button"
+    title="Deselect (uncheck) ALL Color Swatches in this palette.">&#10004;&thinsp;NONE</a>
+</p>
+<hr style="padding:0; margin-top:2px; margin-bottom:2px;" />
+<h2 class="helping-header">COLOR BIASES</h2>
+<div id="color-bias-table">
+<div id="color-bias-row">
+<div class="bias-label-column">&nbsp;[RED]&nbsp;<br>
+<form id="select-bias-red" class="color-selector">
+  <select id="selector-red">
+  <option value="" disabled="disabled" selected="selected">Select RED Bias:</option>
+  <option value="Full">Full [0&ndash;100%]</option>
+  <option value="Minimum">Minimum [0%]</option>
+  <option value="Least">Least [0&ndash;25%]</option>
+  <option value="Less">Less [0&ndash;50%]</option>
+  <option value="Middle">Middle [25%&ndash;75%]</option>
+  <option value="Half">Half [50%]</option>
+  <option value="More">More [50%&ndash;100%]</option>
+  <option value="Most">Most [75%&ndash;100%]</option>
+  <option value="Maximum">Maximum [100%]</option>
+  </select>
+</form>
+</div>
+<div class="bias-label-column">&nbsp;[GREEN]&nbsp;<br>
+<form id="select-bias-green" class="color-selector">
+  <select id="selector-green">
+  <option value="" disabled="disabled" selected="selected">Select GREEN Bias:</option>
+  <option value="Full">Full [0&ndash;100%]</option>
+  <option value="Minimum">Minimum [0%]</option>
+  <option value="Least">Least [0&ndash;25%]</option>
+  <option value="Less">Less [0&ndash;50%]</option>
+  <option value="Middle">Middle [25%&ndash;75%]</option>
+  <option value="Half">Half [50%]</option>
+  <option value="More">More [50%&ndash;100%]</option>
+  <option value="Most">Most [75%&ndash;100%]</option>
+  <option value="Maximum">Maximum [100%]</option>
+  </select>
+</form>
+</div>
+<div class="bias-label-column">&nbsp;[BLUE]&nbsp;<br>
+<form id="select-bias-blue" class="color-selector">
+  <select id="selector-blue">
+  <option value="" disabled="disabled" selected="selected">Select BLUE Bias:</option>
+  <option value="Full">Full [0&ndash;100%]</option>
+  <option value="Minimum">Minimum [0%]</option>
+  <option value="Least">Least [0&ndash;25%]</option>
+  <option value="Less">Less [0&ndash;50%]</option>
+  <option value="Middle">Middle [25%&ndash;75%]</option>
+  <option value="Half">Half [50%]</option>
+  <option value="More">More [50%&ndash;100%]</option>
+  <option value="Most">Most [75%&ndash;100%]</option>
+  <option value="Maximum">Maximum [100%]</option>
+  </select>
+</form>
+</div>
+</div><!--   #color-bias-row   -->
+</div><!--   #color-bias-table   -->
+
+</div><!--   end of #column-swatch   -->
+
+</div><!--   end of #header-columns   -->
+
+</div><!--   end of #header   -->
+
+<div id="content">
+<h2>Current Palette: <span id="pnspan"></span></h2>
+<div id="palette">
+<!-- Inject Color Boxes here! -->
+</div><!--   end of #palette   -->
+
+</div><!--   end of #content   -->
+
+<!--   Import/Export modal (opened by the IMPORT/EXPORT button)   -->
+<div class="modal-overlay" id="import-export-modal" aria-hidden="true">
+<div class="modal-box" role="dialog" aria-labelledby="import-export-title">
+<button type="button" class="modal-close" id="import-export-close" aria-label="Close Import/Export panel">&times;</button>
+<div id="import-export-box">
+<h2 class="helping-header" id="import-export-title">Palette Import / Export</h2>
+<p style="line-height:2em;">
+  <a href="#0" id="merge-buffer" class="command-button" title="Merge colors into the Current Palette.">MERGE</a>
+  <a href="#0" id="import-buffer" class="command-button" title="Import a Palette.">IMPORT</a>
+  <a href="#0" id="export-buffer" class="command-button" title="Export the current Palette as CSV list of colors. Use Shift-EXPORT to export all palettes.">EXPORT</a>
+  <a href="#0" id="clear-buffer" class="command-button" title="Clear the Import/Export Buffer.">CLEAR</a>
+</p>
+<form id="import-export-form">
+<textarea id="import-export-buffer" name="import-export-buffer" placeholder="PALETTES: optional name [in brackets], then comma-separated #RRGGBB colors. [Demo Name],#cc0000,#33ff33,#ccc,#aaf">
+</textarea>
+</form>
+</div><!--   end of #import-export-box    -->
+</div><!--   end of .modal-box   -->
+</div><!--   end of #import-export-modal   -->
+
+<!--   Settings modal (opened by the SETTINGS button)   -->
+<div class="modal-overlay" id="settings-modal" aria-hidden="true">
+<div class="modal-box" role="dialog" aria-labelledby="settings-title">
+<button type="button" class="modal-close" id="settings-close" aria-label="Close Settings panel">&times;</button>
+<div id="settings-help-panel">
+<h2 class="helping-header" id="settings-title">Settings &amp; Help Panel</h2>
+<div id="options-panel">
+<h3 class="helping-header">Global Settings</h3>
+<p class="display-option">DEFAULT PALETTE SIZE: <a href="#0" id="palette-sizer" title="Click to change default Palette Size.">
+  <span id="palette-size-field">12</span></a></p>
+<p class="display-option">DEFAULT SHIFT-JUMP SIZE: <a href="#0" id="jump-sizer" title="Click to change default Shifted-Jump Size.">
+  <span id="jump-size-field">5</span></a></p>
+<p class="display-option">BACKGROUND COLOR: <a href="#0" id="bg-colorer" title="Click to change Background Color behind swatches.">
+  <span id="palette-bg-color">#cccccc</span></a></p>
+<p class="display-option">SHOW OBVIOUS HEADINGS: <a href="#0" id="bg-headings" title="Turn off obvious Headings for a more compact display.">
+  <span id="show-headings-flag">Yes</span></a></p>
+<p class="display-option">VERBOSE ALERTS: <a href="#0" id="bg-verbose" title="Enable more verbose user interactions.">
+  <span id="show-verbose-flag">Yes</span></a></p>
+</div><!--   end of #options-panel   -->
+<form id="hex-converter">
+<h3 class="helping-header">Hex/Decimal Converter</h3>
+<p>DEC: <input type="text" name="dec" size="12" placeholder="Decimal Number" onBlur="hex.value=(this.value-0).toString(16);" /><br />
+<a href="#0" style="display:block; text-indent:2em;" title="Click here to convert either direction!">&#x25BC;CONVERT&#x25B2;</a>
+HEX: <input type="text" name="hex" size="12" placeholder="Hexadecimal" onBlur="dec.value=parseInt(this.value,16);" />
+</p></form>
+</div><!--   end of #settings-help-panel   -->
+</div><!--   end of .modal-box   -->
+</div><!--   end of #settings-modal   -->
+
+</div><!--   end of #outerbox   -->
+
+<script src="Palettes.js?v=20261003a"></script>
+
+</body>
+</html>

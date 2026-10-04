@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="author" content="Dennis F. Freeze (DFF), monolithdesign.com">
+<meta name="copyright" content="2016, Dennis F. Freeze">
+<meta name="description" content="Palettes: quickly create and edit color palettes with biased semi-random colors.">
+<title>Using Palettes</title>
+<link rel="shortcut icon" href="/favicon.ico" />
+<link rel="stylesheet" type="text/css" media="all" href="Palettes.css?v=20261003a" />
+<link href='https://fonts.googleapis.com/css?family=Acme|Source+Sans+Pro:400,600,900' rel='stylesheet' type='text/css'>
+</head>
+
+<body>
+
+<div id="outerbox">
+
+<div id="header">
+<h1>Using Palettes</h1>
+</div><!--   end of #header   -->
+
+<div id="content">
+
+<div id="main-help-box">
+
+<h2>Welcome to Palettes!</h2>
+<p>Palettes is a tool for Web developers that makes it easy to create and edit color palettes. There are a lot of handy color tools out there, and here's what Palettes adds to the mix:</p>
+<ul>
+<li>You can quickly <strong>create palettes with random colors</strong> &mdash; but you can also guide the creation of random colors by putting <strong>constraints on color generation</strong> for each of the Red, Green, and Blue components. For example, you could constrain Red value to the lower quartile (0-25% of possible range), the Green value to a fixed value of 100%, and the Blue value to the upper half (50-100%). When you randomize the swatches in the palette, Palettes will use color biases to generate semi-random colors.</li>
+<li>When you <strong>hover over any color palette</strong>, extra commands appear that allow you to increment or decrement the Red, Green, and Blue components by 1 (or by a larger value you define in Settings).</li>
+<li>Color swatches are <strong>manually sortable</strong>, making it easy to compare subtle variations in swatches.</li>
+<li>It's easy to <strong>import, export, and merge palettes</strong> using comma-separated-values (CSV) strings like "#ffcc66,#345,#994429".</li>
+<li>Palettes uses the <strong>HTML5 localStorage function</strong> to store your palettes and settings between sessions.</li>
+</ul>
+
+<hr />
+<h2 class="helping-header">How to Use Palettes</h2>
+<p id="help-buttons-box">
+  <a href="#Overview" class="command-button" title="Overview of Palettes.">Overview</a>
+  <a href="#Commands" class="command-button" title="Explain the various commands in Palettes.">Commands</a>
+  <a href="#ColorBiases" class="command-button" title="How to use Color Biases to generate colors.">Using&nbsp;Color&nbsp;Biases</a>
+  <a href="#Implementation" class="command-button" title="Notes about the Implementation of Palettes.">Notes</a>
+  <a href="#License" class="command-button" title="Palettes uses the MIT License.">License</a><br />
+  <a href="Palettes.html" class="command-button embiggen" title="Return to the Palettes tool.">Go&nbsp;to&nbsp;PALETTES&nbsp;Tool</a>
+</p>
+
+<a name="Overview"></a>
+<h2>Overview of Palettes</h2>
+
+<p><img src="docs/Overview-250.jpg" alt="Overview screenshot showing main commands and colors in a palette." class="help-image" /><strong>Palettes</strong> provides an interactive approach to building and modifying color palettes.  Sure, you've got your principled approaches based on color theories and human physiology. And then there's the <em>I'll-know-it-when-I-see-it approach</em> &mdash; that's what you get with Palettes. If you want to adjust a given palette, Palettes makes it easy. You can start from scratch, too, building up a palette in an interactive process where you put constraints on the individual red, green, and blue components, and then generate random colors within those ranges.</p>
+<p>The basic idea is that Palettes lets you build a palette of color swatches, either starting from a list of your own colors, or by interactively guiding a semi-random process. That's one of the key elements of PT &mdash; it's so fast when you hit the Randomize button that you can cycle through a lot of color variations quickly.  As you cycle through random colors, you can select (check) the swatches you want to keep in the palette. The Randomize function keeps any checked color swatches, and simply randomizes the rest of the colors in the palette.</p>
+<p>Palettes does not sort the individual color swatches at any time. You can rearrange the boxes by dragging them around, and Palettes will retain any order you impose. If you check some of the swatch boxes and then Randomize, all of the checked boxes will coalesce (in their current relative order) at the start of the palette.</p>
+<p><strong>One thing to note:</strong> reloading a palette from browser storage causes all of the swatches to be selected (the check mark), on the assumption that the prior act of saving it indicated its worthiness.</p>
+
+<a name="Commands"></a>
+<h2>Palettes Commands</h2>
+<h3 class="emdashed">Palette Commands</h3>
+<img src="docs/Commands.jpg" alt="Commands for Managing Palettes." class="help-big-image" />
+<ul>
+<li><strong>NEW</strong>:  creates a new palette after prompting you for a name. An initial palette of colors is created using the Default Palette Size setting.</li>
+<li><strong>SAVE</strong>:  saves your palettes and settings to your browser.</li>
+<li><strong>RENAME</strong>:  prompts you to rename the current palette.  You can also click on the current palette name to do the same thing.</li>
+<li><strong>DELETE</strong>:  deletes the current palette.</li>
+<li><strong>IMPORT/EXPORT</strong>:  toggles the visibility of the Import/Export functions. When visibile, you'll see the command buttons and the text area where values are imported and exported.</li>
+<li><strong>SETTINGS</strong>: toggles the visibility of the Settings panel. </li>
+</ul>
+
+<h3 class="emdashed">Palette Selector</h3>
+<img src="docs/Palette-Selector.jpg" alt="Shows all Palettes (with number of swatches); Current Palette is highlighted." class="help-big-image" />
+<ul>
+<li><strong>Click on Selected palette</strong>:  this will prompt for a new name for the current palette.</li>
+<li><strong>Click on Unselected palette</strong>:  this changes the current palette to whichever palette you clicked on.</li>
+</ul>
+<h3 class="emdashed">Color Bias Selectors</h3>
+<img src="docs/Color-Biases2.jpg" alt="Setting Color Biases for RGB values." class="help-big-image" />
+<ul>
+<li>Click on the dropdown selector underneath RED, GREEN, and BLUE to change the range when selecting random color values for that palette.</li>
+<li>Color Bias definitions are assigned from default values when a palette is created, but the values are saved separately for each palette.</li>
+<li><a href="#ColorBiases" title="Much more info about how to apply Color Biases to your palette operations."><strong>[Read more about using Color Biases.]</strong></a></li>
+</ul>
+
+<h3 class="emdashed">Swatch Commands</h3>
+<img src="docs/Swatch-Commands.jpg" alt="Commands for Managing Color Swatches." class="help-big-image" />
+<p>These commands apply to the color swatches in the cuurrent palette.</p>
+<ul>
+<li><strong>RANDOMIZE</strong>:  this will replace the color of any unchecked swatch boxes with randomly-generated colors. Random color generation is guided by the Color Bias settings <a href="#ColorBiases" title="Much more info about how to apply Color Biases to your palette operations."><strong>(see below)</strong></a>.</li>
+<li><strong>ADD</strong>:  prompts you for the #RRGGBB definition of a color, and then adds it to the current palette. The default value is a randomly-generated color based on the current color bias settings. You can enter a comma-separated-values list of colors, such as '#f45369,#009,#458822'.</li>
+<li><strong>CHECK ALL</strong>:  this will check (protect) all swatch boxes in the current palette.  Protected boxes will not be changed by a Randomize action.</li>
+<li><strong>CHECK NONE</strong>:  this will uncheck all swatch boxes, allowing them to be modified by a Randomize action.</li>
+</ul>
+
+<h3 class="emdashed">Tweaking Individual Swatches</h3>
+<p><img src="docs/Swatch.jpg" alt="Color Swatch with Modifier Elements" class="help-image" />Individual color swatch boxes offer several ways to tweak the colors values.  If you click on the #RRGGBB color in the middle of the box, you'll be prompted for a new color. As a default, it offers a randomly-generated color according to the current color biases.</p>
+<p>Whenever you hover over a color swatch, <strong>Plus and Minus buttons</strong> appear that allow you to individually tweak the Red/Green/Blue components. Simple clicks change the value by 1, and Shifted-Clicks change the value by the Default Shift-Jump Size (defined in the Settings panel).</p>
+<p>If the white circle to the left of the #RRGGBB is checked, the swatch is protected from Randomize actions.</p>
+<p>The red 'X' to the right of the #RRGGBB value immediately deletes the swatch.</p>
+
+<h3 class="emdashed">Import/Export Commands</h3>
+<p>The Merge/Export/Import buttons are located below the color swatches in the current palette. If the buttons aren't visible, click the <strong>Import/Export</strong> button in the commands palette at the top. These operations use the text buffer immediately below the buttons.</p>
+<img src="docs/Merge-Import-Export.jpg" alt="Merge, Import, Export, and Clear buttons with the text bugger." class="help-big-image" />
+<ul>
+<li><strong>MERGE</strong>:  this will merge any color definitions in the text buffer into the current palette, even if they duplicate existing colors. For example, if you select Export and then Merge, you will end up with the current palette doubling in size. If the text in the text area also includes a palette name in brackets, the name is ignored but the colors will be merged.</li>
+<li><strong>IMPORT</strong>: imports a new palette based on color definitions in the text buffer. If you don't supply a name in brackets, then a unique random name is generated. If the specified name is in use, it will refuse to perform the Import.</li>
+<li><strong>EXPORT</strong>:  exports the current palette to the text buffer as a comma-separated-values string. The palette name will be enclosed in brackets and prepended to the list of colors.</li>
+<li><strong>CLEAR</strong>:  clears the import/export buffer.</li>
+</ul>
+<h3 class="emdashed">Settings</h3>
+<p>These are the global settings for using the application. You can show or hide this panel by clicking on the SETTINGS button in the top command box.</p>
+<p><img src="docs/Settings.jpg" alt="Global Settings Buttons" class="help-image" /></p>
+<ul>
+<li><strong>DEFAULT PALETTE SIZE</strong>:  this is how many color swatches will be initially created for a new palette.</li>
+<li><strong>DEFAULT SHIFT-JUMP SIZE</strong>:  when tweaking a color swatch with the plus/minus buttons, holding down Shift increases the increment from 1 to this value.</li>
+<li><strong>BACKGROUND COLOR</strong>:  defines the background color behind swatches, in case you need to see the colors on a different background.</li>
+<li><strong>SHOW OBVIOUS HEADINGS</strong>:  the different elements of the program have headings, and this will turn them off for a more concise display after you're familiar with the placement of things.</li>
+<li><strong>VERBOSE ALERTS</strong>:  this will suppress some of the lesser warnings.</li>
+</ul>
+<h3 class="emdashed">Decimal/Hexadecimal Conversions</h3>
+<p><img src="docs/Converter.jpg" alt="Convert between Decimal and Hexadecimal" class="help-image" />To convert between bases, type a number in the Decimal or Hexadecimal slot and click CONVERT, and the value will be converted to the other base. Since Palettes only works with colors expressed in hexadecimal, you'll need to convert any decimal values to hexadecimal.</p>
+
+<a name="ColorBiases"></a>
+<h2>Using Color Biases</h2>
+<p>Here's where it gets really interesting: you can apply biases to how the red, green, and blue components of colors are randomized. By default, new palettes start out allowing the full range for each of the RGB components: 0 to #ff (which is 255). You can interactively change the biases used when creating new colors. Here are the default definitions for color bias ranges:</p>
+<table class="bias-settings" border="1" cellpadding="0" cellspacing="0" valign="top">
+  <thead>
+  <tr>
+    <td>Label</td>
+    <td>Range</td>
+    <td>Range (alt)</td>
+    <td>Min RGB</td>
+    <td>Max RGB</td>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+   <td>Minimum</td>
+   <td>0%</td>
+   <td>None</td>
+   <td>0</td>
+   <td>0</td>
+  </tr>
+  <tr>
+   <td>Least</td>
+   <td>0-25%</td>
+   <td>Q1</td>
+   <td>0</td>
+   <td>63</td>
+  </tr>
+  <tr>
+   <td>Less</td>
+   <td>0-50%</td>
+   <td>Q1-Q2</td>
+   <td>0</td>
+   <td>127</td>
+  </tr>
+  <tr>
+   <td>Middle</td>
+   <td>25-75%</td>
+   <td>Q2-Q3</td>
+   <td>64</td>
+   <td>191</td>
+  </tr>
+  <tr>
+   <td>Half</td>
+   <td>50%</td>
+   <td>(middle)</td>
+   <td>128</td>
+   <td>128</td>
+  </tr>
+  <tr>
+   <td>More</td>
+   <td>50-100%</td>
+   <td>Q3-Q4</td>
+   <td>128</td>
+   <td>255</td>
+  </tr>
+  <tr>
+   <td>Most</td>
+   <td>75-100%</td>
+   <td>Q4</td>
+   <td>192</td>
+   <td>255</td>
+  </tr>
+  <tr>
+   <td>Maximum</td>
+   <td>100%</td>
+   <td>All</td>
+   <td>255</td>
+   <td>255</td>
+  </tr>
+  <tr>
+   <td>Full</td>
+   <td>0-100%</td>
+   <td>Q1-Q2-Q3-Q4</td>
+   <td>0</td>
+   <td>255</td>
+  </tr>
+  </tbody>
+</table>
+<p>Each time a palette is created, it initially uses a copy of the default bias settings (basically allowing the full range for all RGB color components). Since each palette has its own Bias settings, any changes made to biases will only apply to the current palette.</p>
+<img src="docs/Color-Biases.jpg" alt="Setting Color Biases for RGB values." class="help-big-image" />
+<p>The example above shows the Color Bias selectors for a palette, and the dropdown for RED values is currently exposed.</p>
+
+
+<a name="Implementation"></a>
+<h2>Notes about Implementation</h2>
+<p>Palettes uses HTML5's <strong>localStorage API</strong> to save palettes and settings in your browser's cache. When the program starts, it will attempt to read existing palette information from localStorage. When you change a palette or setting, you'll see a red Delta (&Delta;) icon appear. The <strong>Save</strong> button updates values in localStorage. If you refresh the page without saving, it will revert to the last saved information.</p>
+<p>Palettes is written in plain vanilla JavaScript with no libraries. Swatch reordering uses native HTML5 drag-and-drop. (Versions before 2.0 used jQuery and jQuery UI for Draggable and Sortable.)</p>
+<p>While I have not (yet) provided an interface for modifying the default color bias settings, I did provide a method that allows you to do it programmatically: <strong>defineColorBiasRanges</strong>, which takes a bias_object as argument. See the definition of <span class="term-highlight">color_bias_table</span> in the <strong>initializePalettes</strong> method to create your own ranges for color biases.</p>
+
+<a name="License"></a>
+<h2>License</h2>
+<p>This code is licensed under the <a href="https://opensource.org/licenses/MIT"><strong>MIT License</strong></a> &mdash; see the terms here: <a href="LICENSE"><strong>LICENSE</strong></a>.</p>
+<p>Have fun with it! This was just a little side project that grew into usefulness, and I hope you'll also find it useful. Palettes was originally called Palette Tweaker, and was renamed in 2026.</p>
+<hr />
+<p style="text-align:center;"><strong>AUTHOR: Dennis F. Freeze &bull; <a href="http://monolithdesign.com">Monolith Design</a> &bull; <a href="mailto:dff.monolith.design@gmail.com">dff.monolith.design@gmail.com</a></strong></p>
+
+</div><!--   end of #main-help-box    -->
+
+</div><!--   end of #content   -->
+
+</div><!--   end of #outerbox   -->
+
+<script>
+  document.querySelectorAll("a[href^='http://'], a[href^='https://']").forEach(function(a) { a.target = "_blank"; });
+</script>
+
+</body>
+</html>
