@@ -1386,27 +1386,4 @@ document.addEventListener('DOMContentLoaded', () => {
     Palettes.updatePaletteBias('blue', event.target.value);
   });
 
-  // DEBUG: viewport size display in lower-right corner.
-  const counter = document.createElement('p');
-  counter.classList.add('viewport-width-counter');
-  document.body.appendChild(counter);
-  Object.assign(counter.style, {
-    position:        'fixed',
-    bottom:          '0',
-    right:           '0',
-    padding:         '5px',
-    borderRadius:    '8px 0 0 0',
-    backgroundColor: '#fdc303',
-    fontFamily:      'sans-serif',
-    margin:          '0',
-    boxShadow:       'rgba(0, 0, 0, 0.6) 1px 1px 0px',
-    color:           '#001485',
-    zIndex:          '9999'
-  });
-  const updateViewportCounter = () => {
-    counter.textContent = window.innerWidth + 'px';
-  };
-  updateViewportCounter();
-  window.addEventListener('resize', updateViewportCounter);
-
 });
